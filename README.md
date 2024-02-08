@@ -16,8 +16,8 @@ To set up the Ruby Telegram Bot on your local machine, follow these steps:
 1. **Clone the Repository**
    
    ```bash
-   git clone [repository-url]
-   cd [repository-name]
+   git clone https://github.com/samzhab/test_telegram_bot.git
+   cd test_telegram_bot
    ```
 
 2. **Install Dependencies**
