@@ -38,7 +38,10 @@ class MyTelegramBot
     def run(token)
       Telegram::Bot::Client.run(token) do |bot|
         bot.listen do |message|
-          respond_to_message(bot, message) if message.text
+          next if message.is_a? Telegram::Bot::Types::ChatMemberUpdated
+          next if message.chat.type == 'channel'
+
+          respond_to_message(bot, message)
         end
       end
     end
