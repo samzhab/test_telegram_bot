@@ -14,8 +14,9 @@ class MyTelegramBot
       when '/start'
         bot.api.send_message(chat_id: message.chat.id,
                              text: "🇪🇹🇪🇹🇪🇹Hello, #{message.from.first_name}! Welcome to the Telegram Bot:)🇪🇹🇪🇹🇪🇹")
-        when '/help'
-        bot.api.send_message(chat_id: message.chat.id, text: "🇪🇹🇪🇹🇪🇹You can use /start, /help, /bets, /top, /sport, /date for more options.🇪🇹🇪🇹🇪🇹")
+      when '/help'
+        bot.api.send_message(chat_id: message.chat.id,
+                             text: '🇪🇹🇪🇹🇪🇹You can use /start, /help, /bets, /top, /sport, /date for more options.🇪🇹🇪🇹🇪🇹')
 
       when '/bets'
         bot.api.send_message(chat_id: message.chat.id,
@@ -38,7 +39,6 @@ class MyTelegramBot
       Telegram::Bot::Client.run(token) do |bot|
         bot.listen do |message|
           respond_to_message(bot, message) if message.text
-          byebug
         end
       end
     end
