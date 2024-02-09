@@ -13,9 +13,22 @@ class MyTelegramBot
       case message.text
       when '/start'
         bot.api.send_message(chat_id: message.chat.id,
-                             text: "Hello, #{message.from.first_name}! Welcome to the Telegram Bot.")
-      when '/help'
-        bot.api.send_message(chat_id: message.chat.id, text: 'You can use this bot to send messages.')
+                             text: "Hello, #{message.from.first_name}! Welcome to the Telegram Bot:)")
+        when '/help'
+        bot.api.send_message(chat_id: message.chat.id, text: "You can use /start, /help, /bets, /top, /sport, /date for more options.")
+
+      when '/bets'
+        bot.api.send_message(chat_id: message.chat.id,
+                             text: "You've chosen to view bets by bets")
+      when '/top'
+        bot.api.send_message(chat_id: message.chat.id,
+                             text: "You've chosen to view bets by topbets")
+      when '/sport'
+        bot.api.send_message(chat_id: message.chat.id,
+                             text: "You've chosen to view bets by sport")
+      when '/date'
+        bot.api.send_message(chat_id: message.chat.id,
+                             text: "You've chosen to view bets by date")
       else
         bot.api.send_message(chat_id: message.chat.id, text: "You said: #{message.text}")
       end
