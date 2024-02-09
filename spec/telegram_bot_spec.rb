@@ -12,7 +12,7 @@ RSpec.describe MyTelegramBot do
       let(:message_text) { '/start' }
 
       it 'sends a welcome message' do
-        expect(fake_api).to receive(:send_message).with(hash_including(chat_id: 123, text: 'Hello, John! Welcome to the Telegram Bot:)'))
+        expect(fake_api).to receive(:send_message).with(hash_including(chat_id: 123, text: '🇪🇹🇪🇹🇪🇹Hello, John! Welcome to the Telegram Bot:)🇪🇹🇪🇹🇪🇹'))
         MyTelegramBot.respond_to_message(bot, message)
       end
     end
@@ -21,7 +21,7 @@ RSpec.describe MyTelegramBot do
       let(:message_text) { '/help' }
 
       it 'sends a help message' do
-        expect(fake_api).to receive(:send_message).with(hash_including(chat_id: 123, text: 'You can use /start, /help, /bets, /top, /sport, /date for more options.'))
+        expect(fake_api).to receive(:send_message).with(hash_including(chat_id: 123, text: '🇪🇹🇪🇹🇪🇹You can use /start, /help, /bets, /top, /sport, /date for more options.🇪🇹🇪🇹🇪🇹'))
         MyTelegramBot.respond_to_message(bot, message)
       end
     end
@@ -30,7 +30,7 @@ RSpec.describe MyTelegramBot do
       let(:message_text) { 'unrecognized' }
 
       it 'sends a default echo message' do
-        expect(fake_api).to receive(:send_message).with(hash_including(chat_id: 123, text: 'You said: unrecognized'))
+        expect(fake_api).to receive(:send_message).with(hash_including(chat_id: 123, text: '🇪🇹🇪🇹🇪🇹You said: unrecognized'))
         MyTelegramBot.respond_to_message(bot, message)
       end
     end
