@@ -19,6 +19,15 @@ if ! grep -q "REDIS_PASSWORD=" "$ENV_PATH"; then
   echo "REDIS_PASSWORD=your_redis_password_here" >> "$ENV_PATH"
 fi
 
+# Add COREDATA_JSON_URL and MATCHES_JSON_URL to .env if not already present
+if ! grep -q "COREDATA_API_URL=" "$ENV_PATH"; then
+  echo "COREDATA_API_URL=\"https://api.hulusport.com/sport-data/coredata/?ln=en\"" >> "$ENV_PATH"
+fi
+
+if ! grep -q "MATCHES_API_URL=" "$ENV_PATH"; then
+  echo "MATCHES_API_URL=\"https://api.hulusport.com/sport-data/matches/?ln=en\"" >> "$ENV_PATH"
+fi
+
 # Optional: Configure Redis for persistence (AOF and/or RDB)
 # This part assumes Redis is installed and the redis.conf file's path is known
 REDIS_CONF="/etc/redis/redis.conf"

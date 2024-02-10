@@ -8,7 +8,7 @@ gem 'dotenv'
 gem 'rubocop'
 gem 'telegram-bot-ruby'
 gem 'rails'
-
+gem 'httparty'
 
 group :test do
   gem 'rspec'
@@ -18,4 +18,6 @@ group :test do
   gem 'webmock', require: false
   gem 'redis'
   gem 'byebug'
+  gem 'vcr'
+  gem 'fakeredis'
 end

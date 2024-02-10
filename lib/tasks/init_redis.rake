@@ -4,9 +4,9 @@ require 'redis'
 require 'json'
 require 'dotenv/load' # Ensure this is uncommented if you're using environment variables from .env
 
-namespace :redis do
+namespace :data do
   desc "Initialize Redis with dummy data"
-  task :init => :environment do
+  task :init_redis do
     begin
       # Initialize Redis
       redis = Redis.new(host: ENV['REDIS_HOST'], port: ENV['REDIS_PORT'], db: ENV['REDIS_DB'].to_i, password: ENV['REDIS_PASSWORD'])
