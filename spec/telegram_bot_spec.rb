@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 # spec/telegram_bot_spec.rb
-
 require_relative '../telegram_bot'
 
 RSpec.describe MyTelegramBot do
