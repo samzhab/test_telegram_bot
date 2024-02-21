@@ -1,0 +1,15 @@
+# Ignore environment variables
+.env
+
+# Ignore specific Ruby files
+telegram_bot_older.rb
+
+# Ignore Gemfile.lock to avoid conflicts between different machines
+Gemfile.lock
+
+# Ignore byebug history file
+.byebug_history
+
+# Ignore the directory where rspec test results are stored
+.rspec
+
