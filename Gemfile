@@ -9,6 +9,8 @@ gem 'rubocop'
 gem 'telegram-bot-ruby'
 gem 'rails'
 gem 'httparty'
+gem 'open-uri'
+gem 'nokogiri'
 
 group :test do
   gem 'rspec'
