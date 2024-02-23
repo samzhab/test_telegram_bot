@@ -194,6 +194,51 @@ Ngrok is a useful tool to create secure tunnels to your localhost, allowing you 
 
 Mock Redis in your test suite to avoid impacting real data. Ensure your tests validate Redis interactions accurately, enhancing confidence in data integrity and application logic.
 
+### Feature Improvements
+1. **Telegram Bot (telegram_bot.rb)**:
+
+**Write Tests**: Begin by writing tests for the /invoice command handling, including scenarios for successful and unsuccessful payment verifications.
+Test that the bot requests payment details and promo details correctly.
+Test that the bot initiates Redis entry creation with appropriate placeholders when payment is successful.
+
+**Implement Functionality**: Implement the /invoice command handling in the bot based on the failing tests. Refactor the code as needed until all tests pass.
+Iterate: Continue writing tests for each new piece of functionality (e.g., updating Redis with promo details) and then implementing those functionalities.
+
+2. **Create and Maintain Redis Database Structure**:
+
+**Write Tests**: Create mock objects and write tests for interacting with Redis, such as creating initial entries after successful payments and updating entries with promo details.
+Implement Functionality: Develop the code required to pass these tests, ensuring entries are created and updated correctly.
+
+**Iterate**: Add tests for edge cases or additional functionalities as you expand the database structure and interaction logic.
+
+3. **Sidekiq for Background Processing (promo_worker.rb)**:
+
+**Write Tests**: Start with tests for the Sidekiq worker, ensuring it can identify and process 'pending' promos correctly. Include tests for the worker's interaction with Redis, such as fetching scheduled promos and updating their status.
+
+**Implement Functionality**: Build out the Sidekiq worker's functionality based on the failing tests. Ensure the worker can handle new and scheduled promos as expected.
+
+**Iterate**: Develop additional tests for different scenarios (e.g., no promos to process, processing errors) and refine the worker's code accordingly.
+
+4. **Notification Mechanism in Telegram Bot**:
+
+**Write Tests**: Draft tests for the bot's notification mechanism, ensuring that users receive updates when their promos are processed.
+
+**Implement Functionality**: Develop the bot's notification functionality to pass these tests. This may include periodic checks in Redis for promo status updates and sending messages through the Telegram API.
+Iterate: Continue testing and refining this feature, considering different user scenarios and bot responses.
+
+5. **TDD Steps and Testing**:
+
+**Initial Setup**: Before implementing features, set up your testing environment with the necessary frameworks and tools (e.g., RSpec for Ruby, Mock Redis for simulating Redis interactions, and VCR/WebMock for HTTP request testing).
+
+**Red, Green, Refactor**: Follow the TDD cycle for each feature:
+**Red**: Write failing tests based on the expected functionality.
+**Green**: Implement the minimum necessary code to pass the tests.
+**Refactor**: Clean up and optimize the code without changing its functionality.
+
+**Integration Testing**: Once individual components are tested, write integration tests to ensure they work together as expected.
+
+**Continuous Testing**: Regularly run your test suite while developing to catch and fix regressions or errors as soon as they occur.
+
 ## Troubleshooting
 
 When integrating new features like Chapa payment processing or setting up webhook callbacks, you may encounter some common issues:
