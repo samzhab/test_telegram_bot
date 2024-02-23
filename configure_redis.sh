@@ -19,7 +19,7 @@ if ! grep -q "REDIS_PASSWORD=" "$ENV_PATH"; then
   echo "REDIS_PASSWORD=your_redis_password_here" >> "$ENV_PATH"
 fi
 
-# Add COREDATA_JSON_URL and MATCHES_JSON_URL to .env if not already present
+# Add COREDATA_API_URL and MATCHES_API_URL to .env if not already present
 if ! grep -q "COREDATA_API_URL=" "$ENV_PATH"; then
   echo "COREDATA_API_URL=\"https://api.hulusport.com/sport-data/coredata/?ln=en\"" >> "$ENV_PATH"
 fi
@@ -27,6 +27,27 @@ fi
 if ! grep -q "MATCHES_API_URL=" "$ENV_PATH"; then
   echo "MATCHES_API_URL=\"https://api.hulusport.com/sport-data/matches/?ln=en\"" >> "$ENV_PATH"
 fi
+
+# Add PAYMENT_PROVIDER_CHAPA_SECRET to .env if not already present
+if ! grep -q "PAYMENT_PROVIDER_CHAPA_SECRET=" "$ENV_PATH"; then
+  echo "PAYMENT_PROVIDER_CHAPA_SECRET=your_chapa_secret_here" >> "$ENV_PATH"
+fi
+
+# Add CHAPA_TRANSACTION_ENDPOINT to .env if not already present
+if ! grep -q "CHAPA_TRANSACTION_ENDPOINT=" "$ENV_PATH"; then
+  echo "CHAPA_TRANSACTION_ENDPOINT=\"https://api.chapa.co/v1/transaction/initialize\"" >> "$ENV_PATH"
+fi
+
+# Append CHAPA configuration to .env if not already present
+if ! grep -q "PAYMENT_PROVIDER_CHAPA_VERIFY=" "$ENV_PATH"; then
+  echo "PAYMENT_PROVIDER_CHAPA_VERIFY=your_stripe_token_here" >> "$ENV_PATH"
+fi
+
+# Append Stripe configuration to .env if not already present
+if ! grep -q "PAYMENT_PROVIDER_STRIPE_TOKEN=" "$ENV_PATH"; then
+  echo "PAYMENT_PROVIDER_STRIPE_TOKEN=your_stripe_token_here" >> "$ENV_PATH"
+fi
+
 
 # Optional: Configure Redis for persistence (AOF and/or RDB)
 # This part assumes Redis is installed and the redis.conf file's path is known
