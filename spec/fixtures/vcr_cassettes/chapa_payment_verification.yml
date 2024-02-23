@@ -1,0 +1,98 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://api.chapa.co/v1/transaction/verify123
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Authorization:
+      - Bearer CHASECK_TEST-LivGCWNzvf2wi7X4UAWm5r7MSjnFcFMN
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '141'
+      Connection:
+      - keep-alive
+      Date:
+      - Fri, 23 Feb 2024 00:50:45 GMT
+      X-Amzn-Requestid:
+      - 40084043-a921-4aea-9e15-270a9b765b4e
+      X-Ratelimit-Remaining:
+      - '999'
+      X-Amz-Apigw-Id:
+      - TkHL5GD4LPEEb-Q=
+      Vary:
+      - Origin
+      Cache-Control:
+      - no-cache, private
+      X-Ratelimit-Limit:
+      - '1000'
+      X-Amzn-Trace-Id:
+      - Root=1-65d7ebe5-6c9f0a0456f550665c010bc6;Parent=00e8d4110e04c35b;Sampled=0;lineage=d92d2f1e:0
+      X-Amzn-Remapped-Date:
+      - Fri, 23 Feb 2024 00:50:45 GMT
+      X-Cache:
+      - Error from cloudfront
+      Via:
+      - 1.1 934706f40ffde6f857deae8d024c1192.cloudfront.net (CloudFront)
+      X-Amz-Cf-Pop:
+      - FRA56-P4
+      X-Amz-Cf-Id:
+      - rzgHcqEiiLlXFfe1EExfFS_LaaorWHsAt25V1Fo3K5EUt-GgaxDHlw==
+    body:
+      encoding: UTF-8
+      string: '{"status":"failed","message":"The Endpoint you are looking for is not
+        found. Please refer to our documentation for more. developer.chapa.co"}'
+  recorded_at: Fri, 23 Feb 2024 00:50:45 GMT
+- request:
+    method: post
+    uri: https://api.telegram.org/bot6520699041:AAERR1JHhuR0IQhY8k1oJMK6qgU8d0fXjHo/sendMessage
+    body:
+      encoding: UTF-8
+      string: chat_id=456&text=There%20was%20a%20problem%20with%20your%20payment.%20Please%20try%20again%20or%20contact%20support.
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Server:
+      - nginx/1.18.0
+      Date:
+      - Fri, 23 Feb 2024 00:50:46 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '73'
+      Connection:
+      - keep-alive
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Expose-Headers:
+      - Content-Length,Content-Type,Date,Server,Connection
+    body:
+      encoding: UTF-8
+      string: '{"ok":false,"error_code":400,"description":"Bad Request: chat not found"}'
+  recorded_at: Fri, 23 Feb 2024 00:50:46 GMT
+recorded_with: VCR 6.2.0

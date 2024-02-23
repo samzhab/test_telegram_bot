@@ -38,10 +38,16 @@ if ! grep -q "CHAPA_TRANSACTION_ENDPOINT=" "$ENV_PATH"; then
   echo "CHAPA_TRANSACTION_ENDPOINT=\"https://api.chapa.co/v1/transaction/initialize\"" >> "$ENV_PATH"
 fi
 
+# Append CHAPA configuration to .env if not already present
+if ! grep -q "PAYMENT_PROVIDER_CHAPA_VERIFY=" "$ENV_PATH"; then
+  echo "PAYMENT_PROVIDER_CHAPA_VERIFY=your_stripe_token_here" >> "$ENV_PATH"
+fi
+
 # Append Stripe configuration to .env if not already present
 if ! grep -q "PAYMENT_PROVIDER_STRIPE_TOKEN=" "$ENV_PATH"; then
   echo "PAYMENT_PROVIDER_STRIPE_TOKEN=your_stripe_token_here" >> "$ENV_PATH"
 fi
+
 
 # Optional: Configure Redis for persistence (AOF and/or RDB)
 # This part assumes Redis is installed and the redis.conf file's path is known

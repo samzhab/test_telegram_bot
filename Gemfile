@@ -4,16 +4,8 @@
 
 source 'https://rubygems.org'
 
-gem 'dotenv'
-gem 'rubocop'
-gem 'telegram-bot-ruby'
-gem 'rails'
-gem 'httparty'
-gem 'open-uri'
-gem 'nokogiri'
-
-group :test do
   gem 'rspec'
+  gem 'rake'
   gem 'factory_bot'
   gem 'faker'
   gem 'mock_redis'
@@ -22,4 +14,12 @@ group :test do
   gem 'byebug'
   gem 'vcr'
   gem 'fakeredis'
-end
+
+  gem 'dotenv'
+  gem 'rubocop'
+  gem 'telegram-bot-ruby'
+  gem 'rails'
+  gem 'httparty'
+  gem 'open-uri'
+  gem 'nokogiri'
+  gem 'sinatra'

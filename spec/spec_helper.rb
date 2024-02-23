@@ -5,6 +5,8 @@ require 'webmock/rspec'
 require 'redis'
 require 'vcr'
 require 'fakeredis'
+require 'rake'
+require 'telegram/bot'
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
@@ -12,6 +14,7 @@ VCR.configure do |config|
   config.cassette_library_dir = "spec/cassettes"
   config.hook_into :webmock # Ensure webmock is also added to your Gemfile
   config.configure_rspec_metadata!
+  config.allow_http_connections_when_no_cassette = true
   # Automatically filter all secure details
   config.filter_sensitive_data('<COREDATA_API_URL>') { ENV['COREDATA_API_URL'] }
   config.filter_sensitive_data('<MATCHES_API_URL>') { ENV['MATCHES_API_URL'] }
@@ -57,13 +60,13 @@ RSpec.configure do |config|
     # `true` in RSpec 4.
     mocks.verify_partial_doubles = true
   end
-  
+
 RSpec.configure do |config|
-  
+
   config.before(:suite) do
     Rake.application.load_rakefile
   end
-  
+
   config.before(:each) do
     # Replace Redis.new calls with MockRedis.new for the duration of your tests
     mock_redis = MockRedis.new
