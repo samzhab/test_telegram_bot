@@ -197,11 +197,11 @@ Mock Redis in your test suite to avoid impacting real data. Ensure your tests va
 ### Feature Improvements
 1. **Telegram Bot (telegram_bot.rb)**:
 
-**Write Tests**: Begin by writing tests for the /invoice command handling, including scenarios for successful and unsuccessful payment verifications.
+**Write Tests**: Begin by writing tests for the /promo command handling, including scenarios for successful and unsuccessful payment verifications.
 Test that the bot requests payment details and promo details correctly.
 Test that the bot initiates Redis entry creation with appropriate placeholders when payment is successful.
 
-**Implement Functionality**: Implement the /invoice command handling in the bot based on the failing tests. Refactor the code as needed until all tests pass.
+**Implement Functionality**: Implement the /promo command handling in the bot based on the failing tests. Refactor the code as needed until all tests pass.
 Iterate: Continue writing tests for each new piece of functionality (e.g., updating Redis with promo details) and then implementing those functionalities.
 
 2. **Create and Maintain Redis Database Structure**:
@@ -239,6 +239,27 @@ Iterate: Continue testing and refining this feature, considering different user 
 
 **Continuous Testing**: Regularly run your test suite while developing to catch and fix regressions or errors as soon as they occur.
 
+**Suggested Steps**:
+
+**Telegram Bot Update**:
+Implement the /promo command handling in telegram_bot.rb.
+Use the Telegram API to send messages and handle user responses.
+
+**Redis Integration**:
+Implement logic to save and retrieve payment and promo details in Redis. Ensure the data structure allows for efficient querying based on time and status.
+
+**Sidekiq Worker Implementation**:
+Create promo_worker.rb for the Sidekiq worker.
+Implement the logic for checking scheduled promos, posting them, updating their status, and notifying users.
+
+**Testing**:
+Write tests for the new functionalities in your bot, ensuring that all scenarios (payment success/failure, promo scheduling, etc.) are covered.
+Test the Sidekiq worker separately to ensure it correctly processes and updates scheduled promos.
+
+**Deployment and Monitoring**:
+Deploy the updated bot and the new Sidekiq worker.
+Monitor the system for any issues and optimize based on resource usage and user feedback.
+
 ## Troubleshooting
 
 When integrating new features like Chapa payment processing or setting up webhook callbacks, you may encounter some common issues:
@@ -248,7 +269,7 @@ When integrating new features like Chapa payment processing or setting up webhoo
 3. **Sinatra Server Errors**: Check the server logs for errors. Ensure that all required gems are installed and that there are no syntax errors in your script.
 4. **Ngrok Tunnel Issues**: If Ngrok is not forwarding requests as expected, restart Ngrok and check for any error messages. Ensure your firewall or network settings are not blocking Ngrok's connections.
 
-If problems persist, consult the documentation for each tool and consider reaching out to their respective support channels or community forums for assistance.
+If problems persist, consult the documentation for each tool and consider reaching out to their respective support channels or community forums forinvoice assistance.
 
 ## License
 This work is licensed under a [Creative Commons Attribution-ShareAlike 4.0 International License](http://creativecommons.org/licenses/by-sa/4.0/).
