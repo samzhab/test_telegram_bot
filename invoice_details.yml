@@ -1,0 +1,13 @@
+setup_worldwide_invoice_details:
+  title: 'Global Product'
+  description: 'A global product for international customers'
+  payload: 'unique_payload_global'
+  provider_token: '<%= ENV["PAYMENT_PROVIDER_STRIPE_TOKEN"] %>'
+  start_parameter: 'global-product'
+  currency: 'USD'
+  prices:
+    - label: 'Product'
+      amount: 5000
+  need_name: true
+  need_shipping_address: true
+  is_flexible: true

@@ -18,20 +18,20 @@ get '/chapa_payment_verification' do
   # Extract transaction reference from query parameters
   tx_ref = params['tx_ref']
   chat_id = params['chat_id']
-
+  puts params
   # Call your method to verify the payment with Chapa
   verification_result = verify_chapa_transaction(tx_ref)
 
   if verification_result.nil?
-    message = "There was a problem with your payment. Please try again or contact support."
+    message = "በድጋሚ ይሞክሩት። ወይም የደንበኛ ረዳቶቻችንን ያናግሩ። There was a problem with your payment. Please try again or contact support."
     send_telegram_message(chat_id, message)
     "There was a problem with your payment."
   elsif verification_result.is_a?(Hash) && verification_result.key?('status') && verification_result['status'] == 'success' && verification_result['data'].is_a?(Hash) && verification_result['data'].key?('status') && verification_result['data']['status'] == 'success'
-    message = "Your payment was successful! Thank you for your purchase."
+    message = "ክፍያዎን በሚገባ ጨርሰዋል። ለግብይቶ እናመሰግናለን። Your payment was successful! Thank you for your purchase."
     send_telegram_message(chat_id, message)
-    "Payment processed"
+    "Payment processed."
   else
-      message = "There was a problem with your payment. Please try again or contact support."
+      message = "በድጋሚ ይሞክሩት። ወይም የደንበኛ ረዳቶቻችንን ያናግሩ። There was a problem with your payment. Please try again or contact support."
       send_telegram_message(chat_id, message)
       "There was a problem with your payment."
   end
