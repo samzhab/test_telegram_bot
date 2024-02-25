@@ -48,6 +48,26 @@ if ! grep -q "PAYMENT_PROVIDER_STRIPE_TOKEN=" "$ENV_PATH"; then
   echo "PAYMENT_PROVIDER_STRIPE_TOKEN=your_stripe_token_here" >> "$ENV_PATH"
 fi
 
+# Append Stripe configuration to .env if not already present
+if ! grep -q "USER_EMAIL=" "$ENV_PATH"; then
+  echo "USER_EMAIL=your_stripe_token_here" >> "$ENV_PATH"
+fi
+
+# Append Stripe configuration to .env if not already present
+if ! grep -q "USER_PHONE_NUMBER=" "$ENV_PATH"; then
+  echo "USER_PHONE_NUMBER=your_stripe_token_here" >> "$ENV_PATH"
+fi
+
+# Append Stripe configuration to .env if not already present
+if ! grep -q "CALLBACK_URL=" "$ENV_PATH"; then
+  echo "CALLBACK_URL=your_stripe_token_here" >> "$ENV_PATH"
+fi
+
+# Append Stripe configuration to .env if not already present
+if ! grep -q "RETURN_URL=" "$ENV_PATH"; then
+  echo "RETURN_URL=your_bot_id" >> "$ENV_PATH"
+fi
+
 
 # Optional: Configure Redis for persistence (AOF and/or RDB)
 # This part assumes Redis is installed and the redis.conf file's path is known
