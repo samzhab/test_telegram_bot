@@ -1,11 +1,16 @@
-
 require 'sinatra'
 require 'httparty'
 require 'byebug'
 require 'telegram/bot'
 require 'dotenv/load'
-
 require 'logger'
+require 'yaml'
+
+# Load environment variables from .env file
+Dotenv.load
+
+# Load UI strings from YAML file
+UI_STRINGS = YAML.load_file('ui_strings.yml')
 
 get '/' do
   # Extract chat_id from query parameters
@@ -23,17 +28,17 @@ get '/chapa_payment_verification' do
   verification_result = verify_chapa_transaction(tx_ref)
 
   if verification_result.nil?
-    message = "በድጋሚ ይሞክሩት። ወይም የደንበኛ ረዳቶቻችንን ያናግሩ። There was a problem with your payment. Please try again or contact support."
+    message = UI_STRINGS['chapa_payment_error']
     send_telegram_message(chat_id, message)
     "There was a problem with your payment."
   elsif verification_result.is_a?(Hash) && verification_result.key?('status') && verification_result['status'] == 'success' && verification_result['data'].is_a?(Hash) && verification_result['data'].key?('status') && verification_result['data']['status'] == 'success'
-    message = "ክፍያዎን በሚገባ ጨርሰዋል። ለግብይቶ እናመሰግናለን። Your payment was successful! Thank you for your purchase."
+    message = UI_STRINGS['chapa_payment_success']
     send_telegram_message(chat_id, message)
     "Payment processed."
   else
-      message = "በድጋሚ ይሞክሩት። ወይም የደንበኛ ረዳቶቻችንን ያናግሩ። There was a problem with your payment. Please try again or contact support."
-      send_telegram_message(chat_id, message)
-      "There was a problem with your payment."
+    message = UI_STRINGS['chapa_payment_error']
+    send_telegram_message(chat_id, message)
+    "There was a problem with your payment."
   end
 end
 
@@ -44,20 +49,19 @@ def verify_chapa_transaction(tx_ref)
   )
   # Check if response is successful and contains expected keys
   if response.success?
-  # Parse the response body as JSON
-  begin
-    parsed_response = JSON.parse(response.body)
-  rescue JSON::ParserError => e
-    # If parsing fails, handle the error (e.g., log it) and return nil
-    puts "Failed to parse response body as JSON: #{e.message}"
+    # Parse the response body as JSON
+    begin
+      parsed_response = JSON.parse(response.body)
+    rescue JSON::ParserError => e
+      # If parsing fails, handle the error (e.g., log it) and return nil
+      puts "Failed to parse response body as JSON: #{e.message}"
+      nil
+    end
+    return parsed_response
+  else
+    puts "Failed to verify transaction with Chapa: #{response.code} - #{response.body}"
     nil
   end
-
-  return parsed_response
-else
-  puts "Failed to verify transaction with Chapa: #{response.code} - #{response.body}"
-  nil
-end
 end
 
 def send_telegram_message(chat_id, message)

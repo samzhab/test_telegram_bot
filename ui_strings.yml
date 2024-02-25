@@ -23,3 +23,5 @@ ethiopia_payment_options:
     methods at the following link: %{checkout_url}.
     Note that the payment will be processed externally via Chapa. 💰🔗
   complete_payment_button: "💰 ክፈል | Complete Payment 🛒"
+chapa_payment_success: "🎉🇪🇹 ክፍያዎን በሚገባ ጨርሰዋል። ለግብይቶ እናመሰግናለን። Your payment was successful! Thank you for your purchase.😊🛍️"
+chapa_payment_error: "⚠️🇪🇹 በድጋሚ ይሞክሩት። ወይም የደንበኛ ረዳቶቻችንን ያናግሩ። There was a problem with your payment. Please try again or contact our customer support. 📞💔"

@@ -170,7 +170,7 @@ class MyTelegramBot
         last_name: callback_query.from.last_name,
         phone_number: user_phone_number,
         tx_ref: generated_tx_ref_test,
-        callback_url: "https://2054-144-48-38-22.ngrok-free.app/chapa_payment_verification?tx_ref=#{generated_tx_ref_test}&&chat_id=#{callback_query.from.id}", # Your server endpoint to verify transaction
+        callback_url: "https://3b16-144-48-38-22.ngrok-free.app/chapa_payment_verification?tx_ref=#{generated_tx_ref_test}&&chat_id=#{callback_query.from.id}", # Your server endpoint to verify transaction
         return_url: 'https://t.me/chatID_retreiver_bot' # Redirect here after payment
       }
       # Initialize the Chapa transaction
