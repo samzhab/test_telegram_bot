@@ -1,16 +1,25 @@
-start_message: "🇪🇹🇪🇹🇪🇹 ሰላም %{first_name} እንኳን ደና መጡ!🇪🇹🇪🇹🇪🇹\nHello, %{first_name}! Welcome to the Telegram Bot:)"
-help_message: "🇪🇹🇪🇹🇪🇹እነዚህን መጠቀም ይቻላል /ጀምር /አግዝ /ውርርድ /ተፈላጊዎች /ስፓርት /ቀን /ደረሰኝ (ሌሎች ይጨመራሉ) \nYou can use /start, /help, /bets, /top, /sport, /date, /invoice for more options"
-bets_message: "ወርርድን ለማየት ፈልገዋል\nYou've chosen to view bets"
-top_message: "ተፈላጊዎችን ለማየት ፈልገዋል\nYou've chosen to view top bets"
-sport_message: "ስፓርትን ለማየት ፈልገዋል\nYou've chosen to view sports"
-date_message: "ቀንን ለማየት ፈልገዋል\nYou've chosen to view by date"
-invoice_option_message: "የገበያ ቦታዎን ይምረጡ\nSelect store location"
-default_response: "🇪🇹🇪🇹🇪🇹%{message_text} ብለዋል።\nYou said: %{message_text}"
+start_message: "🎉🇪🇹 ሰላም %{first_name} እንኳን ደና መጡ! 🎊🤗
+Hello, %{first_name}! Welcome to the Telegram Bot 😃👋🏼"
+help_message: "🇪🇹 እነዚህን መጠቀም ይቻላል | You can use the following: 🛠️
+ጀምር /start | 🆘 አግዝ /help | 🎰 ውርርድ /bets | 🌟 ተፈላጊዎች /top | 🏅 ስፓርት /sport
+| 📅 ቀን /date | 🧾 ደረሰኝ /invoice (ሌሎች ይጨመራሉ)"
+bets_message: "🎰 ወርርድን ለማየት ፈልገዋል
+You've chosen to view bets 📈"
+top_message: "🌟 ተፈላጊዎችን ለማየት ፈልገዋል
+You've chosen to view top bets 🔝"
+sport_message: "🏅 ስፓርትን ለማየት ፈልገዋል
+You've chosen to view sports 🏀⚽️🏈"
+date_message: "📅 ቀንን ለማየት ፈልገዋል
+You've chosen to view by date 🗓️"
+invoice_option_message: "🛒 የገበያ ቦታዎን ይምረጡ
+Select store location 🏪"
+default_response: "🇪🇹🔊 %{message_text} ብለዋል። |
+You said: %{message_text} 💬"
 ethiopia_payment_options:
   message_text: >
-    ክፍያዎን እዚህ ሊንክ ካሉት መክፈያ መንገዶች መርጠው ይጨርሱ። ማስታወቂያ:-
-    "ክፍያው በሌላ አካል በቻፓ አማካኝነት ይፈፀማል።ችገር ካጋጠምዎ በድጋሚ ይክፈቱት።
-    | Please complete your payment by selecting one of the available payment "\
-    "methods at the following link: %{checkout_url}. Note that the payment will be "\
-    "processed externally via Chapa."
-  complete_payment_button: "ክፈል|Complete Payment"
+    💳 ክፍያዎን እዚህ ሊንክ ካሉት መክፈያ መንገዶች መርጠው ይጨርሱ።
+    ማስታወቂያ: ክፍያው በሌላ አካል በቻፓ አማካኝነት ይፈፀማል። ችግር ካጋጠምዎ በድጋሚ ይክፈቱት።
+    Please complete your payment by selecting one of the available payment
+    methods at the following link: %{checkout_url}.
+    Note that the payment will be processed externally via Chapa. 💰🔗
+  complete_payment_button: "💰 ክፈል | Complete Payment 🛒"

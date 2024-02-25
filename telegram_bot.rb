@@ -10,7 +10,7 @@ require 'erb'
 
 # Module for helper methods
 module BotHelpers
-  def BotHelpers.validate_presence(values, names)
+  def self.validate_presence(values, names)
     Array(values).zip(Array(names)).each do |value, name|
       raise ArgumentError, "Invalid or missing #{name}" if value.nil? || (value.respond_to?(:empty?) && value.empty?)
     end
@@ -19,12 +19,12 @@ end
 
 # Module for invoice-related utilities
 module InvoiceUtils
-    def setup_worldwide_invoice_details
+    def self.setup_worldwide_invoice_details
       config = YAML.load(ERB.new(File.read('invoice_details.yml')).result)
       config['setup_worldwide_invoice_details']
     end
 
-    def dispatch_invoice(bot, chat_id, invoice_details)
+    def self.dispatch_invoice(bot, chat_id, invoice_details)
       bot.api.send_invoice(chat_id: chat_id, **invoice_details)
     end
 end
@@ -146,16 +146,6 @@ class MyTelegramBot
       bot.api.send_message(chat_id: callback_query.from.id, text: invalid_option_text)
     end
 
-    def display_invoice_options(bot, message)
-      invoice_option_message = UI_STRINGS['invoice_option_message']
-      options = [
-        Telegram::Bot::Types::InlineKeyboardButton.new(text: 'አለምአቀፍ|Worldwide', callback_data: 'worldwide'),
-        Telegram::Bot::Types::InlineKeyboardButton.new(text: 'ኢትዮጲያ|Ethiopia', callback_data: 'ethiopia')
-      ]
-      markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: [options])
-      bot.api.send_message(chat_id: message.chat.id, text: invoice_option_message, reply_markup: markup)
-    end
-
     def send_default_message(bot, message)
       default_response = UI_STRINGS['default_response'] % { message_text: message.text }
       bot.api.send_message(chat_id: message.chat.id, text: default_response)
@@ -215,8 +205,8 @@ class MyTelegramBot
     def display_invoice_options(bot, message)
       invoice_option_message = UI_STRINGS['invoice_option_message']
       options = [
-        Telegram::Bot::Types::InlineKeyboardButton.new(text: 'አለምአቀፍ|Worldwide', callback_data: 'worldwide'),
-        Telegram::Bot::Types::InlineKeyboardButton.new(text: 'ኢትዮጲያ|Ethiopia', callback_data: 'ethiopia')
+        Telegram::Bot::Types::InlineKeyboardButton.new(text: '🌍አለምአቀፍ | Worldwide', callback_data: 'worldwide'),
+        Telegram::Bot::Types::InlineKeyboardButton.new(text: '🇪🇹ኢትዮጲያ | Ethiopia', callback_data: 'ethiopia')
       ]
       markup = Telegram::Bot::Types::InlineKeyboardMarkup.new(inline_keyboard: [options])
       bot.api.send_message(chat_id: message.chat.id, text: invoice_option_message, reply_markup: markup)
