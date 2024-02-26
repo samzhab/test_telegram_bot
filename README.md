@@ -1,5 +1,5 @@
 
-# Advanced Telegram Bot Deployment and Integration Guide
+# Telegram Test Bot Deployment and Payment Integration Guide
 
 This comprehensive guide provides detailed instructions for deploying a Telegram bot with enhanced functionalities, including Chapa payment integration and callback handling via a Sinatra web server, on an Amazon EC2 instance. This document serves as an essential resource for developers aiming to leverage advanced features and integrations in their Telegram bot projects.
 
