@@ -116,6 +116,7 @@ class MyTelegramBot
       case text
         when '/start'
           display_start_message(bot, message)
+          send_helpful_message(bot, message)
         when '/help', '/bets', '/top', '/sport', '/date'
           send_helpful_message(bot, message)
         when '/invoice'
