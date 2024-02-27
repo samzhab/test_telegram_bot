@@ -1,9 +1,9 @@
 start_message: "🎉🇪🇹 ሰላም %{first_name} እንኳን ደና መጡ! 🎊🤗
 Hello, %{first_name}! Welcome to the Telegram Bot 😃👋🏼 ምን ማረግ እንደምችል ለማየት
   /help ይላኩ | Use the /help command to see what I can do."
-help_message: "🇪🇹 እነዚህን መጠቀም ይቻላል | You can use the following: 🛠️
-ጀምር /start | 🆘 አግዝ /help | 🎰 ውርርድ /bets | 🌟 ተፈላጊዎች /top | 🏅 ስፓርት /sport
-| 📅 ቀን /date | 🧾 ደረሰኝ /invoice (ሌሎች ይጨመራሉ)"
+help_message: "🇪🇹 እነዚህን መጠቀም ይቻላል | You can use the following:⚡️ ጀምር /start |
+🆘 አግዝ /help | 💵 ክፍያዎች /payments | 🎰 ውርርድ /sports_betting | 📌ማስታወቂያ
+/promotion | 🎫 ዝግጅቶች /events | 📅 ቀጠሮ አስያዥ /scheduler"
 bets_message: "🎰 ወርርድን ለማየት ፈልገዋል
 You've chosen to view bets 📈"
 top_message: "🌟 ተፈላጊዎችን ለማየት ፈልገዋል
