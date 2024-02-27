@@ -117,7 +117,7 @@ class MyTelegramBot
         when '/start'
           display_start_message(bot, message)
           send_helpful_message(bot, message)
-        when '/help', '/bets', '/top', '/sport', '/date'
+        when '/help', '/payments', '/sports_betting', '/promotion', '/events', '/scheduler'
           send_helpful_message(bot, message)
         when '/invoice'
           display_invoice_options(bot, message)
