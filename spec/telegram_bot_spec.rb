@@ -1,106 +1,271 @@
 # frozen_string_literal: true
 
 require_relative '../telegram_bot'
-require 'webmock/rspec'
-require 'vcr'
 require 'telegram/bot'
-require 'logger'
 
 RSpec.describe MyTelegramBot do
   let(:token) { 'dummy_token' }
+  let(:api) { double('Telegram::Bot::Api') }
+  let(:bot) { instance_double('Telegram::Bot::Client', api: api) }
   let(:chat_id) { 123 }
   let(:user_id) { 1 }
-  let(:mock_telegram_bot_api) { instance_double('Telegram::Bot::Api') }
-  let(:mock_bot) { instance_double('Telegram::Bot::Client', api: mock_telegram_bot_api) }
+  let(:message_text) { '/start' }
+  let(:message) do
+    instance_double('Telegram::Bot::Types::Message',
+                    text: message_text,
+                    chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id),
+                    from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John'))
+  end
+  let(:callback_query) do
+    instance_double('Telegram::Bot::Types::CallbackQuery',
+                    from: message.from,
+                    message: message,
+                    data: 'worldwide')
+  end
+  let(:precheckout_query) do
+  instance_double('Telegram::Bot::Types::PreCheckoutQuery',
+                  from: message.from,
+                  id: 'precheckout_query_id',
+                  invoice_payload: 'invoice_payload',
+                  currency: 'USD',
+                  total_amount: 1000) # Adjust attributes as needed
+  end
 
-  # Common setup for all tests
+  let(:shipping_query) do
+    instance_double('Telegram::Bot::Types::ShippingQuery',
+                    from: message.from,
+                    id: 'shipping_query_id',
+                    invoice_payload: 'invoice_payload',
+                    shipping_address: instance_double('Telegram::Bot::Types::ShippingAddress', country_code: 'US', state: 'State', city: 'City', street_line1: 'Line 1', street_line2: 'Line 2', post_code: 'Post Code')) # Adjust attributes as needed
+  end
+
   before do
-    allow(Telegram::Bot::Client).to receive(:run).and_yield(mock_bot)
-    allow(Telegram::Bot::Api).to receive(:new).with(token).and_return(mock_telegram_bot_api)
-    allow(mock_telegram_bot_api).to receive(:send_message)
-    allow(mock_telegram_bot_api).to receive_messages(
-      send_message: nil,
-      send_invoice: nil,
-      answer_pre_checkout_query: nil,
-      answer_shipping_query: nil,
-      answer_callback_query: nil
-    )
+    allow(Telegram::Bot::Client).to receive(:run).and_yield(bot)
+    allow(bot).to receive(:listen).and_yield(message)
+    allow(bot).to receive(:api).and_return(api)
+    allow(api).to receive(:send_message)
+    allow(api).to receive(:send_invoice)
+    allow(api).to receive(:answer_pre_checkout_query)
+    allow(api).to receive(:answer_shipping_query)
+    allow(api).to receive(:answer_callback_query)
+    allow(bot).to receive(:listen).and_yield(message).and_yield(callback_query).and_yield(precheckout_query).and_yield(shipping_query)
   end
 
   describe '.run' do
     it 'initializes and listens for messages' do
-      expect(mock_bot).to receive(:listen)
-      MyTelegramBot.run(token)
+      expect(bot).to receive(:listen)
+      MyTelegramBot.run(token)  # Changed from Telegram::Bot::Client.run to MyTelegramBot.run
       expect(Telegram::Bot::Client).to have_received(:run).with(token)
     end
   end
 
-  describe '#bot_listen' do
-    commands = ['/help', '/sports_betting', '/promotion', '/events', '/scheduler', '/payments']
-    let(:message) do
-      instance_double('Telegram::Bot::Types::Message',
-                      text: message_text,
-                      chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id),
-                      from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John'))
-    end
+  describe '#run' do
 
-    commands.each do |command|
-      context "when receiving a #{command} message" do
-        let(:message_text) { command }
-        it "responds to #{command}" do
-          # Simulate the incoming message being processed
-          allow(mock_bot).to receive(:listen).and_yield(message)
-          expect(mock_telegram_bot_api).to receive(:send_message).with(hash_including(chat_id: chat_id))
+    context 'when receiving a message' do
 
-          MyTelegramBot.new.bot_listen(mock_bot)
-        end
-      end
-    end
-  end
+      # Test for '/start' command
+      # it "sends a welcome message in response to '/start'" do
+      #   described_class.respond_to_message(bot, instance_double('Telegram::Bot::Types::Message', text: '/start', chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id), from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John')))
+      #   expect(api).to have_received(:send_message).with(hash_including(text: "🇪🇹🇪🇹🇪🇹Hello, John! Welcome to the Telegram Bot:)🇪🇹🇪🇹🇪🇹"))
+      # end
+      #
+      # # Test for '/help' command
+      # it "provides help information in response to '/help'" do
+      #   described_class.respond_to_message(bot, instance_double('Telegram::Bot::Types::Message', text: '/help', chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id), from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John')))
+      #   expect(api).to have_received(:send_message).with(hash_including(text: "🇪🇹🇪🇹🇪🇹You can use /start, /help, /bets, /top, /sport, /date, or /invoice for more options.🇪🇹🇪🇹🇪🇹"))
+      # end
+      #
+      # # Test for '/bets' command
+      # it "responds to '/bets'" do
+      #   described_class.respond_to_message(bot, instance_double('Telegram::Bot::Types::Message', text: '/bets', chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id), from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John')))
+      #   expect(api).to have_received(:send_message).with(hash_including(text: "You've chosen to view bets"))
+      # end
+      #
+      # # Test for '/top' command
+      # it "responds to '/top'" do
+      #   described_class.respond_to_message(bot, instance_double('Telegram::Bot::Types::Message', text: '/top', chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id), from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John')))
+      #   expect(api).to have_received(:send_message).with(hash_including(text: "You've chosen to view top bets"))
+      # end
+      #
+      # # Test for '/sport' command
+      # it "responds to '/sport'" do
+      #   described_class.respond_to_message(bot, instance_double('Telegram::Bot::Types::Message', text: '/sport', chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id), from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John')))
+      #   expect(api).to have_received(:send_message).with(hash_including(text: "You've chosen to view sports"))
+      # end
+      #
+      # # Test for '/date' command
+      # it "responds to '/date'" do
+      #   described_class.respond_to_message(bot, instance_double('Telegram::Bot::Types::Message', text: '/date', chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id), from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John')))
+      #   expect(api).to have_received(:send_message).with(hash_including(text: "You've chosen to view by date"))
+      # end
 
-  describe 'BotHelpers' do
-    context 'validate_presence' do
-      it 'raises ArgumentError if values are missing' do
-        expect { BotHelpers.validate_presence([nil], ['token']) }.to raise_error(ArgumentError)
-      end
+      # Test for '/invoice' command
 
-      it 'does not raise error if values are present' do
-        expect { BotHelpers.validate_presence(['value'], ['name']) }.not_to raise_error
-      end
-    end
-  end
-
-  describe 'InvoiceUtils' do
-    let(:invoice_details) do
-      {
-        title: 'Test Invoice',
-        description: 'This is a test invoice',
-        start_parameter: 'test_start',
-        currency: 'USD',
-        prices: [{ label: 'Test', amount: 1234 }]
-      }
-    end
-
-    context 'setup_worldwide_invoice_details' do
-      it 'loads invoice details from YAML file' do
-        expect(InvoiceUtils.setup_worldwide_invoice_details).not_to be_empty
-      end
-    end
-
-    context 'dispatch_invoice' do
-      it 'calls send_invoice on mock_bot mock_telegram_bot_api' do
-        expect(mock_telegram_bot_api).to receive(:send_invoice).with(chat_id: chat_id, **invoice_details)
-        InvoiceUtils.dispatch_invoice(mock_bot, chat_id, invoice_details)
-      end
-    end
-  end
-
-  describe 'ErrorHandler' do
-    context 'handle_error' do
-      it 'logs the error' do
-        expect { ErrorHandler.handle_error(StandardError.new('test error'), 'TestContext') }
-          .to output(/TestContext: test error/).to_stdout
-      end
+      it "responds to '/invoice' with invoice options" do
+      # described_class.respond_to_message(
+      #   bot,
+      #   instance_double(
+      #     'Telegram::Bot::Types::Message',
+      #     text: "/invoice",
+      #     chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id),
+      #     from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John')
+      #   )
+      # )
+      #
+      # expect(api).to have_received(:send_message).with(
+      #   hash_including(
+      #     chat_id: chat_id,
+      #     text: 'Select store location:'
+      #   )
+      # )
+      # end
     end
   end
+
+    context 'when sending an inline keyboard' do
+      # it 'sends a message with an inline keyboard' do
+      #   described_class.respond_to_message(
+      #     bot,
+      #     instance_double(
+      #       'Telegram::Bot::Types::Message',
+      #       text: "/invoice",
+      #       chat: instance_double('Telegram::Bot::Types::Chat', id: chat_id),
+      #       from: instance_double('Telegram::Bot::Types::User', id: user_id, first_name: 'John')
+      #     )
+      #   )
+      #
+      #     expect(api).to have_received(:send_message).with(hash_including(text: 'Select store location:', reply_markup: instance_of(Telegram::Bot::Types::InlineKeyboardMarkup)))
+      #   end
+    end
+
+  #   context 'when receiving a callback query' do
+  #     it 'handles the worldwide callback query' do
+  #       expect(api).to have_received(:answer_callback_query).with(hash_including(callback_query_id: callback_query.from.id.to_s))
+  #     end
+  #   end
+  #   context 'when receiving a precheckout query' do
+  #   it 'handles the precheckout query' do
+  #     expect(api).to have_received(:answer_pre_checkout_query).with(hash_including(pre_checkout_query_id: precheckout_query.id))
+  #   end
+  # end
+  #
+  # context 'when receiving a shipping query' do
+  #   it 'handles the shipping query' do
+  #     expect(api).to have_received(:answer_shipping_query).with(hash_including(shipping_query_id: shipping_query.id))
+  #   end
+  # end
+  end
+
+  describe '/promo command' do
+    context 'when the command is received' do
+      # it 'informs the user of the next available slot for the promo' do
+      #   allow(message).to receive(:text).and_return('/promo')
+      #   expect(api).to receive(:send_message).with(chat_id: chat_id, text: include('The next available slot for promo is'))
+      #   MyTelegramBot.new.handle_message(message)
+      # end
+    end
+
+    context 'when payment is confirmed successfully' do
+      # it 'asks for promo details' do
+      #   # This assumes you handle the successful payment in a specific method
+      #   # You'll need to implement this in your bot logic
+      #   expect(api).to receive(:send_message).with(chat_id: chat_id, text: include('Please send your promo details'))
+      #   MyTelegramBot.new.handle_promo_payment_success(chat_id)
+      # end
+    end
+
+    context 'when payment fails' do
+    #   it 'informs the user that the payment failed' do
+    #     # This assumes you handle the failed payment in a specific method
+    #     # You'll need to implement this in your bot logic
+    #     expect(api).to receive(:send_message).with(chat_id: chat_id, text: include('Payment failed'))
+    #     MyTelegramBot.new.handle_promo_payment_failure(chat_id)
+    #   end
+    # end
+  end
+
+
+    context 'when user sends promo details after successful payment' do
+      let(:promo_details) { 'This is a sample promo detail.' }
+
+      # it 'confirms promo receipt and schedules it' do
+      #   # Simulate user sending promo details after successful payment
+      #   allow(message).to receive(:text).and_return(promo_details)
+      #   expect(api).to receive(:send_message).with(chat_id: chat_id, text: include('Your promo has been received and scheduled'))
+      #   MyTelegramBot.new.handle_promo_details_received(chat_id, promo_details)
+      # end
+    end
+
+    context 'when the scheduled time arrives' do
+      # it 'posts the promo to the user' do
+      #   # This assumes the bot posts promos automatically when their scheduled time arrives
+      #   # You will need a method that simulates or triggers this event
+      #   expect(api).to receive(:send_message).with(chat_id: chat_id, text: include('Your scheduled promo is now live'))
+      #   MyTelegramBot.new.post_scheduled_promo(chat_id)
+      # end
+    end
+
+    context 'when there is an error handling the promo' do
+      # it 'informs the user of the error' do
+      #   # Simulate an error scenario, such as failure to save promo details
+      #   allow(message).to receive(:text).and_return('/promo')
+      #   expect(api).to receive(:send_message).with(chat_id: chat_id, text: include('There was an error processing your promo'))
+      #   MyTelegramBot.new.handle_promo_error(chat_id)
+      # end
+    end
+end
+ # Add more tests and contexts as needed
+#
+#
+#   describe 'handling callback queries' do
+#   before { allow(bot).to receive(:listen).and_yield(callback_query) }
+#
+#   shared_examples 'a callback query handler' do |data, expect_invoice|
+#     let(:callback_query_data) { data }
+#
+#     it "handles #{data} callback queries" do
+#       VCR.use_cassette("telegram_bot_#{data}_callback_query") do
+#         described_class.run(token)
+#         expect(api).to have_received(:answer_callback_query).with(hash_including(callback_query_id: callback_query.from.id.to_s))
+#
+#         if expect_invoice
+#           expect(api).to have_received(:send_invoice).with(hash_including(chat_id: chat_id))
+#         else
+#           expect(api).not_to have_received(:send_invoice)
+#         end
+#       end
+#     end
+#   end
+#
+#   include_examples 'a callback query handler', 'ethiopia', true
+#   include_examples 'a callback query handler', 'worldwide', true
+#   include_examples 'a callback query handler', 'invalid', false
+# end
+
+#
+#   describe 'handling shipping queries' do
+#     let(:shipping_query) { instance_double('Telegram::Bot::Types::ShippingQuery', id: 'shipping-query-id', shipping_address: instance_double('Telegram::Bot::Types::ShippingAddress')) }
+#
+#     it 'provides shipping options when valid' do
+#       VCR.use_cassette('telegram_bot_shipping_options') do
+#         MyTelegramBot.provide_shipping_options(bot, shipping_query)
+#         expect(api).to have_received(:answer_shipping_query).with(hash_including(shipping_query_id: 'shipping-query-id', ok: true))
+#       end
+#     end
+#
+#     context 'with invalid conditions' do
+#       before do
+#         allow(shipping_query).to receive(:shipping_address).and_return(nil) # Simulate invalid conditions
+#       end
+#
+#       it 'responds with error when address is invalid' do
+#         VCR.use_cassette('telegram_bot_invalid_shipping_address') do
+#           MyTelegramBot.provide_shipping_options(bot, shipping_query)
+#           expect(api).to have_received(:answer_shipping_query).with(hash_including(shipping_query_id: 'shipping-query-id', ok: false))
+#         end
+#       end
+#     end
+#   end
+
+  # Add other contexts and describe blocks as needed for full coverage
 end

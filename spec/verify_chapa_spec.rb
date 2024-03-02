@@ -1,8 +1,6 @@
 require_relative '../verify_chapa' # Adjust the path as necessary
 require 'rspec'
 require 'rack/test'
-require 'vcr'
-require 'webmock/rspec' # Make sure WebMock is required
 require 'json'
 
 ENV['RACK_ENV'] = 'test'
