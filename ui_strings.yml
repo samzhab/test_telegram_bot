@@ -1,9 +1,74 @@
 start_message: "🎉🇪🇹 ሰላም %{first_name} እንኳን ደና መጡ! 🎊🤗
 Hello, %{first_name}! Welcome to the Telegram Bot 😃👋🏼 ምን ማረግ እንደምችል ለማየት
   /help ይላኩ | Use the /help command to see what I can do."
-help_message: "🇪🇹 እነዚህን መጠቀም ይቻላል | You can use the following:⚡️ ጀምር /start |
-🆘 አግዝ /help | 💵 ክፍያዎች /payments | 🎰 ውርርድ /sports_betting | 📌ማስታወቂያ
-/promotion | 🎫 ዝግጅቶች /events | 📅 ቀጠሮ አስያዥ /scheduler"
+help_message: "ይህ ቦት የተለያዩ የወደፊት ደንበኞች ሊገዙት የሚያስቡትን
+ቦት  ምን ሊሰራላቸው እንደሚችል (በትንሹ) የሚያሳይ ቦት ነው።
+ለመሞከር ከታች በግራ በኩል ያለውን ሜኑ ይክፈቱ።
+| This bot demonstrates capabilities of future bots for potential buyers.
+Use the menu below on the left."
+invitation_text: "የእኛን ልዩ የድር መተግበሪያ በመክፈት ተጨማሪ ባህሪያትን እና ይዘትን ያስሱ!
+ለመጀመር ከዚህ በታች ያለውን አዝራር ጠቅ ያድርጉ። | Explore more features and interactive
+content by opening our special Web App! Click the button below to get started. (make sure to checkout our terms and privacy before you do)"
+under_construction_message: "የመረጡትን ምረጫ አሁን እንዴት እደማስተናግደው እያሰብኩ ስለሆነ ሌላ
+ይምረጡ። | That command is currently being developed. Choose another."
+terms_of_use: "**Terms of Use**
+1. **Introduction**
+Welcome to @samaelLabsDemoBot, a demonstration Telegram bot crafted to exhibit
+functionalities suitable for Ethiopian businesses. By interacting with our bot,
+you agree to these Terms of Use, acknowledging the demonstration nature for
+potential application insights.
+2. **Use of the Bot**
+@samaelLabsDemoBot is designed to demonstrate possible Telegram bot capabilities
+using publicly available information relevant to the Ethiopian market. It aims
+to provide potential buyers with a simulated experience of the bot's
+applications. This bot is for demonstration and testing purposes only and not
+intended for commercial use.
+3. **User Conduct**
+Users are encouraged to interact with the bot within the scope of demonstration
+and testing. Misuse, including spamming, transmitting offensive messages, or
+engaging in illegal activities, will lead to access termination.
+4. **Intellectual Property**
+Content and functionalities demonstrated by the bot are intended solely for
+demonstration. Reproduction, distribution, or unauthorized use outside the
+demonstration context is prohibited.
+5. *Disclaimers**
+The bot is provided 'as is' and 'as available' for demonstration purposes only.
+We make no warranties regarding the accuracy, reliability, or applicability of
+the demonstrated functionalities for specific business needs.
+6. **Limitation of Liability**
+Our liability related to your use of the demonstration bot is limited to the
+fullest extent permitted by law. We are not liable for decisions or actions
+taken based on the bot's demonstration use.
+7. **Changes to Terms**
+We reserve the right to update these Terms at any time. Continued use after
+changes signifies acceptance of the amended terms."
+privacy_policy: "**Privacy Policy**
+1. **Introduction**
+This policy outlines our handling practices as you interact with @samaelLabsDemoBot,
+emphasizing our non-collection of personal data during demonstrations.
+2. **Information Collection and Use**
+@samaelLabsDemoBot showcases Telegram bot capabilities without collecting personal
+data from its users. Interaction is based on publicly available data pertinent
+to Ethiopian contexts, ensuring privacy and confidentiality.
+3. **Data Sharing**
+Since no personal data is collected, there is no sharing with third parties.
+Demonstrations are based on generic, publicly available information or
+hypothetical scenarios. All personal information that is used in the process of demonstration
+is not shared without the user's consent, aligning with data protection regulations like GDPR, CCPA, etc.
+4. **Data Security**
+No personal data collection minimizes traditional security concerns. We advise
+users to maintain their own security by adhering to Telegram’s privacy settings
+and recommendations.
+5. **User Rights**
+Users have the right to cease interaction with the bot at any time. Given the
+non-collection of personal data, typical concerns regarding data correction or
+deletion are inapplicable.
+6. **Changes to the Privacy Policy**
+We may revise this policy in response to new practices or regulations. Users
+are encouraged to review periodically for updates.
+7. **Contact Us**
+For inquiries or feedback concerning these Terms or the Privacy Policy,
+please reach out to us at @SamaelLabs."
 bets_message: "🎰 ወርርድን ለማየት ፈልገዋል
 You've chosen to view bets 📈"
 top_message: "🌟 ተፈላጊዎችን ለማየት ፈልገዋል

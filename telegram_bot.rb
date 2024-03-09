@@ -76,38 +76,51 @@ class MyTelegramBot
         {}
       end
     end
+    #
+    # def setup_webhook(token)
+    #   bot = Telegram::Bot::Client.new(token)
+    #   webhook_url = "#{ENV['WEBHOOK_URL']}/webhooks" # Replace with your webhook URL
+    #   response = bot.set_webhook(url: webhook_url)
+    #   if response['ok']
+    #     puts 'Webhook set successfully!'
+    #     bot_listen # Start listening for updates
+    #   else
+    #     puts 'Failed to set webhook!'
+    #   end
+    # end
 
     def run(token)
-      BotHelpers.validate_presence(token, 'token')
-      bot_instance = new # Create an instance of MyTelegramBot
-      Telegram::Bot::Client.run(token) do |bot|
-        bot_instance.bot_listen(bot) # Call instance method 'bot_listen' on the created instance
+          BotHelpers.validate_presence(token, 'token')
+          bot_instance = new # Create an instance of MyTelegramBot
+          Telegram::Bot::Client.run(token) do |bot|
+            bot_instance.bot_listen(bot) # Call instance method 'bot_listen' on the created instance
+          end
+        rescue StandardError => e
+          handle_error(e, 'run') # Assuming handle_error is correctly defined to handle such errors
+        end
+        # end of class methods
       end
-    rescue StandardError => e
-      handle_error(e, 'run') # Assuming handle_error is correctly defined to handle such errors
-    end
-    # end of class methods
-  end
 
-  UI_STRINGS = load_ui_strings
+      UI_STRINGS = load_ui_strings
 
-  def bot_listen(bot)
-    puts '-----------------------------------------'
-    bot.listen do |update|
-      puts "Update class: #{update.class}" # Debugging line
-      LOGGER.info("Received update: #{update.to_json}")
-      case update
-      when Telegram::Bot::Types::Message
-        respond_to_message(bot, update)
-      when Telegram::Bot::Types::PreCheckoutQuery
-        handle_precheckout_query(bot, update)
-      when Telegram::Bot::Types::ShippingQuery
-        handle_shipping_query(bot, update)
-      when Telegram::Bot::Types::CallbackQuery
-        handle_callback_query(bot, update)
+    def bot_listen(bot)
+      puts '-----------------------------------------------------------------------------------------------------------'
+      bot.listen do |update|
+        puts "Update class: #{update.class}" # Debugging line
+        LOGGER.info("Received update: #{update.to_json}")
+        case update
+        when Telegram::Bot::Types::Message
+          respond_to_message(bot, update)
+        when Telegram::Bot::Types::PreCheckoutQuery
+          handle_precheckout_query(bot, update)
+        when Telegram::Bot::Types::ShippingQuery
+          handle_shipping_query(bot, update)
+        when Telegram::Bot::Types::CallbackQuery
+          handle_callback_query(bot, update)
+        end
       end
     end
-  end
+
 
   def respond_to_message(bot, message)
     puts "-----------------------------------------#{message}"
@@ -118,12 +131,25 @@ class MyTelegramBot
 
     case text
     when '/start'
-      display_start_message(bot, message)
       send_helpful_message(bot, message)
-    when '/help', '/sports_betting', '/promotion', '/events', '/scheduler'
+    when '/help'
       send_helpful_message(bot, message)
     when '/payments'
       display_invoice_options(bot, message)
+    when '/dir'
+      send_webapp_dir(bot, message, "https://t.me/samaelLabsDemoBot/dir")
+    when '/bets'
+      send_webapp_bets(bot, message, "https://t.me/samaelLabsDemoBot/bets")
+    when '/promos'
+      send_under_construction_message(bot, message)
+    when '/events'
+      send_under_construction_message(bot, message)
+    when '/schedules'
+      send_under_construction_message(bot, message)
+    when '/privacy'
+      send_privacy_message(bot, message)
+    when '/terms'
+      send_terms_message(bot, message)
     else
       send_default_message(bot, message)
     end
@@ -133,6 +159,34 @@ class MyTelegramBot
   rescue StandardError => e
     LOGGER.error("StandardError - respond_to_message: #{e.message}")
     handle_error(e, 'Error - respond_to_message')
+  end
+
+  def send_webapp_dir(bot, message, webapp_url)
+    BotHelpers.validate_presence([bot, message, webapp_url], %w[bot message webapp_url])
+    options = {
+      reply_markup: Telegram::Bot::Types::InlineKeyboardMarkup.new(
+        inline_keyboard: [
+          [Telegram::Bot::Types::InlineKeyboardButton.new(text: 'ድረ-መተግበሪያውን ክፈት። | Open WebApp', web_app: { url: webapp_url })]
+        ]
+      )
+    }
+    bot.api.send_message(chat_id: message.chat.id, text: "📖 አድራሻ ማውጫ | Business Directory", **options)
+  rescue StandardError => e
+    LOGGER.error("Error in send_webapp_dir: #{e.class}: #{e.message}")
+  end
+
+  def send_webapp_bets(bot, message, webapp_url)
+    BotHelpers.validate_presence([bot, message, webapp_url], %w[bot message webapp_url])
+    options = {
+      reply_markup: Telegram::Bot::Types::InlineKeyboardMarkup.new(
+        inline_keyboard: [
+          [Telegram::Bot::Types::InlineKeyboardButton.new(text: 'ድረ-መተግበሪያውን ክፈት። | Open WebApp', web_app: { url: webapp_url })]
+        ]
+      )
+    }
+    bot.api.send_message(chat_id: message.chat.id, text: "🎰 ውርርዶችን ለማየት | Sports Betting\n#{ENV['invitation_text']}", **options)
+  rescue StandardError => e
+    LOGGER.error("Error in send_webapp_bets: #{e.class}: #{e.message}")
   end
 
   def handle_callback_query(bot, callback_query)
@@ -174,12 +228,12 @@ class MyTelegramBot
     LOGGER.error("Error in handle_shipping_query: #{e.class}: #{e.message}")
   end
 
-  def display_start_message(bot, message)
-    start_message = format(UI_STRINGS['start_message'], first_name: message.from.first_name)
-    LOGGER.info("Sending start message to user #{message.from.id}")
-    bot.api.send_message(chat_id: message.chat.id, text: start_message)
+  def send_under_construction_message(bot, message)
+    under_construction_message = format(UI_STRINGS['under_construction_message'], first_name: message.from.first_name)
+    LOGGER.info("Sending under_construction_message to user #{message.from.id}")
+    bot.api.send_message(chat_id: message.chat.id, text: under_construction_message)
   rescue StandardError => e
-    LOGGER.error("Error in display_start_message: #{e.class}: #{e.message}")
+    LOGGER.error("Error in under_construction_message: #{e.class}: #{e.message}")
   end
 
   def send_helpful_message(bot, message)
@@ -188,6 +242,22 @@ class MyTelegramBot
     bot.api.send_message(chat_id: message.chat.id, text: helpful_message)
   rescue StandardError => e
     LOGGER.error("Error in send_helpful_message: #{e.class}: #{e.message}")
+  end
+
+  def send_terms_message(bot, message)
+    terms_of_use = UI_STRINGS['terms_of_use']
+    LOGGER.info("Sending helpful message to user #{message.from.id}")
+    bot.api.send_message(chat_id: message.chat.id, text: terms_of_use)
+  rescue StandardError => e
+    LOGGER.error("Error in send_terms_of_use: #{e.class}: #{e.message}")
+  end
+
+  def send_privacy_message(bot, message)
+    privacy_policy = UI_STRINGS['privacy_policy']
+    LOGGER.info("Sending helpful message to user #{message.from.id}")
+    bot.api.send_message(chat_id: message.chat.id, text: privacy_policy)
+  rescue StandardError => e
+    LOGGER.error("Error in send_terms_of_use: #{e.class}: #{e.message}")
   end
 
   def send_invalid_option_message(bot, callback_query)
@@ -309,7 +379,7 @@ class MyTelegramBot
 
   def verify_chapa_transaction(tx_ref)
     LOGGER.info("Verifying Chapa transaction with tx_ref: #{tx_ref}")
-    url = "#{ENV['PAYMENT_PROVIDER_CHAPA_VERIFY']}#{tx_ref}" # Combine the environment variable and transaction reference
+    url = "#{ENV['PAYMENT_PROVIDER_CHAPA_VERIFY']}/chapa_payment_verification#{tx_ref}" # Combine the environment variable and transaction reference
     headers = {
       'Authorization' => "Bearer #{ENV['PAYMENT_PROVIDER_CHAPA_SECRET']}" # Using the secret key from environment variables
     }

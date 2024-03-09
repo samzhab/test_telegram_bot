@@ -9,5 +9,5 @@ setup_worldwide_invoice_details:
     - label: 'Product'
       amount: 5000
   need_name: true
-  need_shipping_address: true
-  is_flexible: true
+  need_shipping_address: false
+  is_flexible: false

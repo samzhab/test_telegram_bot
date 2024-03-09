@@ -34,11 +34,110 @@ end
 # Load UI strings from YAML file
 UI_STRINGS = YAML.load_file('ui_strings.yml')
 
+TELEGRAM_BOT_TOKEN = ENV['TELEGRAM_BOT_TOKEN']
+
 get '/' do
   # Extract chat_id from query parameters
   chat_id = params['chat_id']
   # Display the chat_id
-  "Received chat_id: #{chat_id}"
+  "Recieved chat_id: #{chat_id}"
+end
+
+# post "/webhook/#{ENV['TELEGRAM_BOT_TOKEN']}" do
+#   request.body.rewind
+#   data = JSON.parse(request.body.read)
+#
+#   # Check if the update is a message
+#   if data['message']
+#     message = data['message']
+#     chat_id = message['chat']['id']
+#     text = message['text']
+#
+#     # Echo back the received message
+#     response = HTTParty.post(
+#       "https://api.telegram.org/bot#{ENV['TELEGRAM_BOT_TOKEN']}/sendMessage",
+#       body: {
+#         chat_id: chat_id,
+#         text: text
+#       },
+#       headers: {
+#         'Content-Type' => 'application/json'
+#       }
+#     )
+#
+#     puts response.body if response.code != 200
+#   end
+#
+#   status 200
+# end
+#
+# # Set the webhook
+# post '/webhook/set_webhook' do
+#   response = HTTParty.post(
+#     "https://api.telegram.org/bot#{ENV['TELEGRAM_BOT_TOKEN']}/setWebhook",
+#     body: {
+#       url: "#{ENV['CALLBACK_URL']}/#{ENV['TELEGRAM_BOT_TOKEN']}"
+#     },
+#     headers: {
+#       'Content-Type' => 'application/json'
+#     }
+#   )
+#
+#   if response.code == 200
+#     'Webhook set successfully!'
+#   else
+#     'Failed to set webhook!'
+#   end
+# end
+#
+# # Remove the webhook
+# post '/webhook/remove_webhook' do
+#   response = HTTParty.post(
+#     "https://api.telegram.org/bot#{ENV['TELEGRAM_BOT_TOKEN']}/deleteWebhook"
+#   )
+#
+#   if response.code == 200
+#     'Webhook removed successfully!'
+#   else
+#     'Failed to remove webhook!'
+#   end
+# end
+#
+get '/dir' do
+  send_file 'lib/webapps/dir/index.html'
+end
+
+get '/styles.css' do
+  send_file 'lib/webapps/dir/styles.css'
+end
+
+get '/script.js' do
+  send_file 'lib/webapps/dir/script.js'
+end
+
+get '/businesses.json' do
+  send_file 'lib/webapps/dir/businesses.json'
+end
+
+# Serve files for '/bets' route
+get '/bets' do
+  send_file 'lib/webapps/bets/index.html'
+end
+
+get '/styles.css' do
+  send_file 'lib/webapps/bets/styles.css'
+end
+
+get '/script.js' do
+  send_file 'lib/webapps/bets/script.js'
+end
+
+get '/coredata.json' do
+  send_file 'lib/webapps/bets/coredata.json'
+end
+
+get '/matches.json' do
+  send_file 'lib/webapps/bets/matches.json'
 end
 
 get '/chapa_payment_verification' do
